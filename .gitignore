@@ -1,3 +1,4 @@
+myenv/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -159,5 +160,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-storage/
-db_name.db
+server/app/crud/db_name.db
+server/storage

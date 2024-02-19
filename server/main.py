@@ -3,11 +3,12 @@ from fastapi import FastAPI, HTTPException, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
-from server.app.crud.crud import check_key_existence,create_connection,create_image_metadata, get_metadata, delete_metadata,db_file
+from app.crud.crud import check_key_existence,create_connection,create_image_metadata, get_metadata, delete_metadata,db_file
 import os
 import string
 import random
 from fastapi import HTTPException
+
 app = FastAPI()
 
 app.add_middleware(
@@ -25,7 +26,7 @@ def generate_random_string(length=8):
     return ''.join(random.choice(letters) for _ in range(length))
 
 @app.post("/upload/")
-async def update_file(key: Optional[str] = Form(None), encoded_content: List[str] = Form(...)):
+async def upload(key: Optional[str] = Form(None), encoded_content: List[str] = Form(...)):
     try:
         if not key:
             key = generate_random_string()
@@ -86,6 +87,7 @@ async def update_files(key: str, encoded_content: List[str] = Form(...), new_key
         os.makedirs(new_key_directory, exist_ok=True)
         create_image_metadata(new_key, new_key_directory)
         path="./storage/"+get_metadata(key)
+        #TO-DO : Add the prefix or suffix to the folder name 
         new_path = new_key_directory
 
         for filename in os.listdir(path):
